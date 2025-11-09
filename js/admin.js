@@ -215,8 +215,8 @@ function loadGallery(filter = 'all') {
         const item = document.createElement('div');
         item.className = 'gallery-item';
         item.innerHTML = `
-            <div class="gallery-item-image" style="width: 100%; height: 200px; overflow: hidden; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center;">
-                <img src="${photo.secure_url}" alt="${photo.title}" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            <div class="gallery-item-image" style="width: 100%; height: 200px; overflow: hidden; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                <img src="${photo.secure_url}" alt="${photo.title}" style="width: 100%; height: 100%; object-fit: contain; display: block;" data-full-url="${photo.secure_url}">
             </div>
             <div class="gallery-item-info">
                 <div class="gallery-item-category">${getCategoryLabel(photo.category)}</div>
@@ -227,6 +227,12 @@ function loadGallery(filter = 'all') {
             </div>
         `;
         galleryGrid.appendChild(item);
+        
+        // Add click event to open full size image
+        const imgElement = item.querySelector('img');
+        imgElement.addEventListener('click', () => {
+            window.open(photo.secure_url, '_blank');
+        });
     });
 
     // Add delete listeners
