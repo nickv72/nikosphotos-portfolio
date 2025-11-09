@@ -215,7 +215,9 @@ function loadGallery(filter = 'all') {
         const item = document.createElement('div');
         item.className = 'gallery-item';
         item.innerHTML = `
-            <img src="${photo.secure_url}" alt="${photo.title}">
+            <div class="gallery-item-image">
+                <img src="${photo.secure_url}" alt="${photo.title}">
+            </div>
             <div class="gallery-item-info">
                 <div class="gallery-item-category">${getCategoryLabel(photo.category)}</div>
                 <div class="gallery-item-name">${photo.title}</div>
