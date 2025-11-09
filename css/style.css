@@ -315,7 +315,7 @@ img {
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
 }
 
@@ -520,7 +520,7 @@ img {
 .masonry-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
     display: block;
 }
@@ -1043,15 +1043,3 @@ img {
 .mb-1 { margin-bottom: 1rem; }
 .mb-2 { margin-bottom: 2rem; }
 .mb-3 { margin-bottom: 3rem; }
-
-/* ========================================
-   ADMIN PANEL IMAGE FIX
-======================================== */
-.gallery-item-info img,
-.masonry-item img,
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover !important;
-    display: block;
-}
