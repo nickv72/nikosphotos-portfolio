@@ -507,6 +507,8 @@ img {
     transition: var(--transition);
     background-color: #f8f9fa;
     height: 400px;
+    width: 100%;
+    max-width: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
