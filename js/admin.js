@@ -235,10 +235,16 @@ function loadGallery(filter = 'all') {
     });
     
     // Add click listeners to images
-    document.querySelectorAll('.gallery-item-image img').forEach(img => {
+    const galleryImages = document.querySelectorAll('.gallery-item-image img');
+    console.log('Found images:', galleryImages.length);
+    
+    galleryImages.forEach((img, index) => {
+        console.log('Adding listener to image', index, img.src);
         img.addEventListener('click', function(e) {
+            e.preventDefault();
             e.stopPropagation();
             const photoUrl = this.getAttribute('data-photo-url');
+            console.log('Image clicked! Opening:', photoUrl);
             window.open(photoUrl, '_blank');
         });
     });
