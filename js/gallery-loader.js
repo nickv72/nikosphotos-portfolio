@@ -44,7 +44,7 @@ function loadHomeGallery() {
         item.className = 'gallery-item';
         item.setAttribute('data-category', 'featured');
         item.innerHTML = `
-            <img src="${photo.secure_url}" alt="${photo.title}" data-full-src="${photo.secure_url}">
+            <img src="${photo.secure_url}" alt="${photo.title}">
             <div class="gallery-overlay">
                 <span class="gallery-title">${photo.title}</span>
             </div>
@@ -52,8 +52,10 @@ function loadHomeGallery() {
         galleryGrid.appendChild(item);
     });
 
-    // Initialize lightbox after adding images
-    initializeLightbox();
+    // Update lightbox after adding images
+    if (window.updateLightboxImages) {
+        setTimeout(() => window.updateLightboxImages(), 100);
+    }
 }
 
 // ========================================
@@ -90,7 +92,7 @@ function loadProjectsGallery() {
         item.className = 'masonry-item';
         item.setAttribute('data-category', photo.category);
         item.innerHTML = `
-            <img src="${photo.secure_url}" alt="${photo.title}" data-full-src="${photo.secure_url}">
+            <img src="${photo.secure_url}" alt="${photo.title}">
             <div class="gallery-overlay">
                 <span class="gallery-title">${photo.title}</span>
                 <span class="gallery-category">${getCategoryLabel(photo.category)}</span>
@@ -99,103 +101,9 @@ function loadProjectsGallery() {
         masonryGrid.appendChild(item);
     });
 
-    // Initialize lightbox after adding images
-    initializeLightbox();
-}
-
-// ========================================
-// LIGHTBOX FUNCTIONALITY
-// ========================================
-function initializeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeLightboxBtn = document.querySelector('.close-lightbox');
-    const galleryImages = document.querySelectorAll('.gallery-item img, .masonry-item img');
-    
-    let currentIndex = 0;
-    let allImages = [];
-
-    // Collect all image sources
-    galleryImages.forEach((img, index) => {
-        allImages.push(img.getAttribute('data-full-src') || img.src);
-        
-        // Add click event to each image
-        img.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            currentIndex = index;
-            openLightbox(allImages[currentIndex]);
-        });
-        
-        // Make cursor pointer
-        img.style.cursor = 'pointer';
-    });
-
-    function openLightbox(imageSrc) {
-        if (!lightbox || !lightboxImg) return;
-        
-        lightboxImg.src = imageSrc;
-        lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeLightbox() {
-        if (!lightbox) return;
-        
-        lightbox.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    // Close button
-    if (closeLightboxBtn) {
-        closeLightboxBtn.addEventListener('click', closeLightbox);
-    }
-
-    // Click outside to close
-    if (lightbox) {
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
-                closeLightbox();
-            }
-        });
-    }
-
-    // Escape key to close
-    document.addEventListener('keydown', function(e) {
-        if (!lightbox) return;
-        
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-            closeLightbox();
-        }
-        
-        if (lightbox.classList.contains('active')) {
-            if (e.key === 'ArrowLeft') {
-                currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
-                openLightbox(allImages[currentIndex]);
-            }
-            if (e.key === 'ArrowRight') {
-                currentIndex = (currentIndex + 1) % allImages.length;
-                openLightbox(allImages[currentIndex]);
-            }
-        }
-    });
-
-    // Navigation buttons
-    const prevBtn = document.querySelector('.lightbox-prev');
-    const nextBtn = document.querySelector('.lightbox-next');
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', function() {
-            currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
-            openLightbox(allImages[currentIndex]);
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', function() {
-            currentIndex = (currentIndex + 1) % allImages.length;
-            openLightbox(allImages[currentIndex]);
-        });
+    // Update lightbox and filters after adding images
+    if (window.updateLightboxImages) {
+        setTimeout(() => window.updateLightboxImages(), 100);
     }
 }
 
@@ -203,12 +111,15 @@ function initializeLightbox() {
 // INITIALIZE ON PAGE LOAD
 // ========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Check which page we're on and load appropriate gallery
-    if (document.querySelector('.featured-gallery')) {
-        loadHomeGallery();
-    }
-    
-    if (document.getElementById('masonryGrid')) {
-        loadProjectsGallery();
-    }
+    // Wait for script.js to initialize first
+    setTimeout(() => {
+        // Check which page we're on and load appropriate gallery
+        if (document.querySelector('.featured-gallery')) {
+            loadHomeGallery();
+        }
+        
+        if (document.getElementById('masonryGrid')) {
+            loadProjectsGallery();
+        }
+    }, 50);
 });
