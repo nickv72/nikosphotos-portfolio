@@ -262,6 +262,7 @@ img {
         transform: translateY(0);
     }
 }
+
 /* ========================================
    FEATURED GALLERY SECTION
 ======================================== */
@@ -304,14 +305,19 @@ img {
     box-shadow: var(--shadow);
     cursor: pointer;
     transition: var(--transition);
-    height: 400px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
+    max-height: 400px;
 }
 
 .gallery-item:hover {
@@ -320,7 +326,7 @@ img {
 }
 
 .gallery-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .gallery-overlay {
@@ -500,7 +506,10 @@ img {
     box-shadow: var(--shadow);
     cursor: pointer;
     transition: var(--transition);
-    background-color: var(--white);
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .masonry-item.hide {
@@ -509,10 +518,10 @@ img {
 
 .masonry-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     transition: transform 0.5s ease;
-    min-height: 250px;
+    display: block;
 }
 
 .masonry-item:hover {
@@ -521,7 +530,7 @@ img {
 }
 
 .masonry-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 /* ========================================
@@ -810,6 +819,7 @@ img {
     stroke: var(--text-color);
     transition: var(--transition);
 }
+
 /* ========================================
    LIGHTBOX
 ======================================== */
@@ -825,6 +835,7 @@ img {
     justify-content: center;
     z-index: 2000;
     animation: fadeIn 0.3s ease;
+    padding: 20px;
 }
 
 .lightbox.active {
@@ -832,8 +843,10 @@ img {
 }
 
 .lightbox img {
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 95%;
+    max-height: 95vh;
+    width: auto;
+    height: auto;
     object-fit: contain;
     animation: zoomIn 0.3s ease;
 }
@@ -858,11 +871,19 @@ img {
     cursor: pointer;
     z-index: 2001;
     transition: var(--transition);
+    background: rgba(0, 0, 0, 0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-lightbox:hover {
     color: var(--secondary-color);
     transform: rotate(90deg);
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .lightbox-controls {
@@ -876,19 +897,19 @@ img {
 
 .lightbox-prev,
 .lightbox-next {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.5);
     color: var(--white);
     border: none;
     font-size: 40px;
-    padding: 10px 20px;
+    padding: 15px 25px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: var(--transition);
 }
 
 .lightbox-prev:hover,
 .lightbox-next:hover {
-    background-color: var(--secondary-color);
+    background-color: rgba(52, 152, 219, 0.8);
 }
 
 /* ========================================
