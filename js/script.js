@@ -25,122 +25,174 @@ const navLinks = document.querySelectorAll('.nav-menu a');
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navMenu.classList.remove('active');
-        const spans = navToggle.querySelectorAll('span');
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
+        const spans = navToggle?.querySelectorAll('span');
+        if (spans) {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
     });
 });
 
 // ========================================
 // GALLERY LIGHTBOX
 // ========================================
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const closeLightbox = document.querySelector('.close-lightbox');
-const galleryItems = document.querySelectorAll('.gallery-item img, .masonry-item img');
+let lightboxInitialized = false;
 
-let currentImageIndex = 0;
-let images = [];
+function initializeLightbox() {
+    // Prevent multiple initializations
+    if (lightboxInitialized) return;
+    lightboxInitialized = true;
 
-// Open lightbox
-galleryItems.forEach((item, index) => {
-    images.push(item.src);
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeLightboxBtn = document.querySelector('.close-lightbox');
     
-    item.addEventListener('click', () => {
-        currentImageIndex = index;
-        showImage(currentImageIndex);
+    if (!lightbox || !lightboxImg) return;
+
+    let currentIndex = 0;
+    let allImages = [];
+
+    function updateImageList() {
+        const galleryImages = document.querySelectorAll('.gallery-item img, .masonry-item img');
+        allImages = [];
+        
+        galleryImages.forEach((img, index) => {
+            allImages.push(img.src);
+            
+            // Remove old listeners by cloning
+            const newImg = img.cloneNode(true);
+            img.parentNode.replaceChild(newImg, img);
+            
+            // Add click event
+            newImg.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                currentIndex = index;
+                openLightbox(allImages[currentIndex]);
+            });
+            
+            newImg.style.cursor = 'pointer';
+        });
+    }
+
+    function openLightbox(imageSrc) {
+        lightboxImg.src = imageSrc;
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
-    });
-});
-
-// Close lightbox
-if (closeLightbox) {
-    closeLightbox.addEventListener('click', closeLightboxFunc);
-}
-
-lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-        closeLightboxFunc();
     }
-});
 
-function closeLightboxFunc() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
 
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('active')) return;
-    
-    if (e.key === 'Escape') closeLightboxFunc();
-    if (e.key === 'ArrowLeft') showPreviousImage();
-    if (e.key === 'ArrowRight') showNextImage();
-});
+    // Close button
+    if (closeLightboxBtn) {
+        closeLightboxBtn.addEventListener('click', closeLightbox);
+    }
 
-// Navigation buttons
-const prevBtn = document.querySelector('.lightbox-prev');
-const nextBtn = document.querySelector('.lightbox-next');
+    // Click outside to close
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
 
-prevBtn?.addEventListener('click', showPreviousImage);
-nextBtn?.addEventListener('click', showNextImage);
+    // Escape key to close
+    document.addEventListener('keydown', function(e) {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+            closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+            currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        } else if (e.key === 'ArrowRight') {
+            currentIndex = (currentIndex + 1) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        }
+    });
 
-function showImage(index) {
-    lightboxImg.src = images[index];
-}
+    // Navigation buttons
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
 
-function showPreviousImage() {
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    showImage(currentImageIndex);
-}
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        });
+    }
 
-function showNextImage() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    showImage(currentImageIndex);
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % allImages.length;
+            openLightbox(allImages[currentIndex]);
+        });
+    }
+
+    // Initial setup
+    updateImageList();
+
+    // Return update function for external use
+    window.updateLightboxImages = updateImageList;
 }
 
 // ========================================
 // FILTER FUNCTIONALITY (Projects Page)
 // ========================================
-const filterButtons = document.querySelectorAll('.filter-btn');
-const masonryItems = document.querySelectorAll('.masonry-item');
+function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const masonryItems = document.querySelectorAll('.masonry-item');
+    
+    if (filterButtons.length === 0) return;
 
-filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
-        button.classList.add('active');
-        
-        const filterValue = button.getAttribute('data-filter');
-        
-        masonryItems.forEach(item => {
-            if (filterValue === 'all') {
-                item.style.display = 'block';
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                }, 10);
-            } else {
-                if (item.getAttribute('data-category') === filterValue) {
-                    item.style.display = 'block';
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+            
+            const filterValue = button.getAttribute('data-filter');
+            
+            masonryItems.forEach(item => {
+                // Add transition for smooth effect
+                item.style.transition = 'all 0.3s ease';
+                
+                if (filterValue === 'all') {
+                    item.style.display = 'flex';
                     setTimeout(() => {
                         item.style.opacity = '1';
                         item.style.transform = 'scale(1)';
                     }, 10);
                 } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
+                    if (item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'flex';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'scale(0.8)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
                 }
+            });
+
+            // Update lightbox after filter
+            if (window.updateLightboxImages) {
+                setTimeout(() => {
+                    window.updateLightboxImages();
+                }, 350);
             }
         });
     });
-});
+}
 
 // ========================================
 // STATS COUNTER ANIMATION
@@ -167,18 +219,20 @@ const animateCounter = (element) => {
 };
 
 // Intersection Observer for stats
-const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            statsObserver.unobserve(entry.target);
-        }
-    });
-}, { threshold: 0.5 });
+if (statNumbers.length > 0) {
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
 
-statNumbers.forEach(stat => {
-    statsObserver.observe(stat);
-});
+    statNumbers.forEach(stat => {
+        statsObserver.observe(stat);
+    });
+}
 
 // ========================================
 // CONTACT FORM HANDLING
@@ -236,9 +290,22 @@ window.addEventListener('load', () => {
 // ========================================
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-    } else {
-        navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+    if (navbar) {
+        if (window.scrollY > 100) {
+            navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+        } else {
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        }
     }
+});
+
+// ========================================
+// INITIALIZE ON PAGE LOAD
+// ========================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize lightbox
+    initializeLightbox();
+    
+    // Initialize filters (if on projects page)
+    initializeFilters();
 });
