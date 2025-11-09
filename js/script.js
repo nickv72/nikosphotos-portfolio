@@ -144,9 +144,9 @@ function initializeLightbox() {
 // ========================================
 function initializeFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const masonryItems = document.querySelectorAll('.masonry-item');
+    const masonryGrid = document.querySelector('.masonry-grid');
     
-    if (filterButtons.length === 0) return;
+    if (filterButtons.length === 0 || !masonryGrid) return;
 
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -156,6 +156,9 @@ function initializeFilters() {
             button.classList.add('active');
             
             const filterValue = button.getAttribute('data-filter');
+            const masonryItems = document.querySelectorAll('.masonry-item');
+            
+            let visibleCount = 0;
             
             masonryItems.forEach(item => {
                 // Add transition for smooth effect
@@ -167,6 +170,7 @@ function initializeFilters() {
                         item.style.opacity = '1';
                         item.style.transform = 'scale(1)';
                     }, 10);
+                    visibleCount++;
                 } else {
                     if (item.getAttribute('data-category') === filterValue) {
                         item.style.display = 'flex';
@@ -174,6 +178,7 @@ function initializeFilters() {
                             item.style.opacity = '1';
                             item.style.transform = 'scale(1)';
                         }, 10);
+                        visibleCount++;
                     } else {
                         item.style.opacity = '0';
                         item.style.transform = 'scale(0.8)';
@@ -183,6 +188,26 @@ function initializeFilters() {
                     }
                 }
             });
+
+            // Show message if no photos in category
+            setTimeout(() => {
+                let emptyMessage = document.getElementById('empty-category-message');
+                
+                if (visibleCount === 0) {
+                    if (!emptyMessage) {
+                        emptyMessage = document.createElement('div');
+                        emptyMessage.id = 'empty-category-message';
+                        emptyMessage.style.cssText = 'grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #6c757d; font-size: 1.1rem;';
+                        masonryGrid.appendChild(emptyMessage);
+                    }
+                    emptyMessage.innerHTML = `Δεν υπάρχουν φωτογραφίες σε αυτή την κατηγορία.<br><a href="admin.html" style="color: #3498db; margin-top: 10px; display: inline-block;">Ανέβασε φωτογραφίες από το Admin Panel</a>`;
+                    emptyMessage.style.display = 'block';
+                } else {
+                    if (emptyMessage) {
+                        emptyMessage.style.display = 'none';
+                    }
+                }
+            }, 350);
 
             // Update lightbox after filter
             if (window.updateLightboxImages) {
