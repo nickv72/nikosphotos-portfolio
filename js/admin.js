@@ -216,7 +216,7 @@ function loadGallery(filter = 'all') {
         item.className = 'gallery-item';
         item.innerHTML = `
             <div class="gallery-item-image" style="width: 100%; height: 200px; overflow: hidden; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; cursor: pointer;">
-                <img src="${photo.secure_url}" alt="${photo.title}" style="width: 100%; height: 100%; object-fit: contain; display: block; cursor: pointer;" onclick="window.open('${photo.secure_url}', '_blank')">
+                <img src="${photo.secure_url}" alt="${photo.title}" style="width: 100%; height: 100%; object-fit: contain; display: block; cursor: pointer;" data-photo-url="${photo.secure_url}">
             </div>
             <div class="gallery-item-info">
                 <div class="gallery-item-category">${getCategoryLabel(photo.category)}</div>
@@ -232,6 +232,15 @@ function loadGallery(filter = 'all') {
     // Add delete listeners
     document.querySelectorAll('.btn-delete').forEach(btn => {
         btn.addEventListener('click', handleDelete);
+    });
+    
+    // Add click listeners to images
+    document.querySelectorAll('.gallery-item-image img').forEach(img => {
+        img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const photoUrl = this.getAttribute('data-photo-url');
+            window.open(photoUrl, '_blank');
+        });
     });
 }
 
