@@ -306,10 +306,10 @@ img {
     cursor: pointer;
     transition: var(--transition);
     background-color: #f8f9fa;
+    height: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 350px;
 }
 
 .gallery-item img {
@@ -317,7 +317,6 @@ img {
     height: 100%;
     object-fit: contain;
     transition: transform 0.5s ease;
-    max-height: 400px;
 }
 
 .gallery-item:hover {
@@ -507,6 +506,7 @@ img {
     cursor: pointer;
     transition: var(--transition);
     background-color: #f8f9fa;
+    min-height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -518,7 +518,7 @@ img {
 
 .masonry-item img {
     width: 100%;
-    height: auto;
+    max-height: 500px;
     object-fit: contain;
     transition: transform 0.5s ease;
     display: block;
