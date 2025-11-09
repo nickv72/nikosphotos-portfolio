@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Το Άλμπουμ Μου - Photography Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Το Άλμπουμ Μου</a>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="active">Αρχική</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="bio.html">Bio</a></li>
+                <li><a href="contact.html">Επικοινωνία</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">Capturing Moments</h1>
+            <p class="hero-subtitle fade-in-delay">Η τέχνη της φωτογραφίας μέσα από τον φακό μου</p>
+            <a href="projects.html" class="cta-button fade-in-delay-2">Εξερεύνηση</a>
+        </div>
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Featured Gallery -->
+    <section class="featured-gallery">
+        <div class="container">
+            <h2 class="section-title">Αγαπημένες Φωτογραφίες</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="featured">
+                    <img src="images/home/photo1.jpg" alt="Featured Photo 1">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Φωτογραφία 1</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="featured">
+                    <img src="images/home/photo2.jpg" alt="Featured Photo 2">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Φωτογραφία 2</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="featured">
+                    <img src="images/home/photo3.jpg" alt="Featured Photo 3">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Φωτογραφία 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Preview -->
+    <section class="about-preview">
+        <div class="container">
+            <div class="about-content">
+                <h2>Καλώς ήρθατε</h2>
+                <p>Ανακαλύψτε τον κόσμο μέσα από τις φωτογραφίες μου. Από πτηνά σε έντομα και στιγμές της καθημερινότητας, κάθε εικόνα αφηγείται μια μοναδική ιστορία.</p>
+                <a href="bio.html" class="text-link">Διαβάστε περισσότερα →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Το Άλμπουμ Μου. Created with ❤️</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-controls">
+            <button class="lightbox-prev">‹</button>
+            <button class="lightbox-next">›</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

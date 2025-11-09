@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Το Άλμπουμ Μου</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Το Άλμπουμ Μου</a>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Αρχική</a></li>
+                <li><a href="projects.html" class="active">Projects</a></li>
+                <li><a href="bio.html">Bio</a></li>
+                <li><a href="contact.html">Επικοινωνία</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Projects</h1>
+            <p class="page-subtitle">Εξερευνήστε τις συλλογές μου</p>
+        </div>
+    </section>
+
+    <!-- Filter Buttons -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Όλα</button>
+                <button class="filter-btn" data-filter="birds">Πτηνά</button>
+                <button class="filter-btn" data-filter="insects">Έντομα</button>
+                <button class="filter-btn" data-filter="various">Διάφορες</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Gallery -->
+    <section class="projects-gallery">
+        <div class="container">
+            <div class="masonry-grid" id="masonryGrid">
+                
+                <!-- Πτηνά -->
+                <div class="masonry-item" data-category="birds">
+                    <img src="images/birds/bird1.jpg" alt="Πτηνό 1">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Πτηνό 1</span>
+                        <span class="gallery-category">Πτηνά</span>
+                    </div>
+                </div>
+                
+                <!-- Έντομα -->
+                <div class="masonry-item" data-category="insects">
+                    <img src="images/insects/insect1.jpg" alt="Έντομο 1">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Έντομο 1</span>
+                        <span class="gallery-category">Έντομα</span>
+                    </div>
+                </div>
+                
+                <!-- Διάφορες -->
+                <div class="masonry-item" data-category="various">
+                    <img src="images/various/photo1.jpg" alt="Διάφορη φωτογραφία 1">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">Φωτογραφία 1</span>
+                        <span class="gallery-category">Διάφορες</span>
+                    </div>
+                </div>
+
+                <!-- Προσθέστε περισσότερες φωτογραφίες εδώ -->
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Το Άλμπουμ Μου. Created with ❤️</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-controls">
+            <button class="lightbox-prev">‹</button>
+            <button class="lightbox-next">›</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
